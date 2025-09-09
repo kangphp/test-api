@@ -1,133 +1,116 @@
 import styled, { keyframes } from 'styled-components';
-import Image from '../atoms/Image';
 import Text from '../atoms/Text';
-import { MdVerified } from 'react-icons/md';
 
 const fadeInUp = keyframes`
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 `;
 
-const ProfileCardContainer = styled.div`
-  background: white;
-  border-radius: 12px;
-  padding: 24px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-  animation: ${fadeInUp} 0.6s ease-out;
+const CardContainer = styled.div`
+    background: white;
+    border-radius: 12px;
+    padding: 24px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+    animation: ${fadeInUp} 0.5s ease-out;
+    margin-top: 24px;
 `;
 
-const ProfileHeader = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 16px;
-  margin-bottom: 20px;
+const InfoList = styled.ul`
+    list-style: none;
+    padding: 0;
+    margin: 0;
 `;
 
-const ProfileInfo = styled.div`
-  flex: 1;
+const InfoItem = styled.li`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 0;
+    border-bottom: 1px solid #efefef;
+
+    &:last-child {
+        border-bottom: none;
+    }
 `;
 
-const NameContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 6px;
-  margin-bottom: 4px;
+const Label = styled(Text)`
+    font-weight: 600;
+    color: #555;
 `;
 
-const VerifiedIcon = styled(MdVerified)`
-  color: #1da1f2;
-  font-size: 18px;
+const Value = styled(Text)`
+    color: #262626;
+    text-align: right;
 `;
 
-const ProfileStats = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 16px;
-  margin-top: 16px;
-`;
-
-const StatItem = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 12px;
-  background: #f8f9fa;
-  border-radius: 8px;
-`;
-
-const Bio = styled.div`
-  margin-top: 16px;
-  padding: 12px;
-  background: #f8f9fa;
-  border-radius: 8px;
-  line-height: 1.5;
+const Badge = styled.span`
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    color: white;
+    background-color: ${props => props.$isOn ? '#e74c3c' : '#2ecc71'}; // Merah jika ON, Hijau jika OFF
 `;
 
 const ProfileCard = ({ profileData }) => {
+  // Ambil semua data yang dibutuhkan dari props
   const {
-    profile_pic_url,
-    full_name,
     username,
-    biography,
+    full_name,
     follower_count,
     following_count,
-    is_verified
+    media_count,
+    is_private,
+    spam_follower_setting_enabled
   } = profileData;
 
-  const formatNumber = (num) => {
-    if (num >= 1000000) {
-      return (num / 1000000).toFixed(1) + 'M';
-    } else if (num >= 1000) {
-      return (num / 1000).toFixed(1) + 'K';
-    }
-    return num.toString();
-  };
-
   return (
-    <ProfileCardContainer>
-      <ProfileHeader>
-        <Image
-          src={profile_pic_url}
-          alt={`${username}'s profile`}
-          size="80px"
-          rounded
-          bordered
-          hoverable
-        />
-        <ProfileInfo>
-          <NameContainer>
-            <Text variant="subtitle" block>
-              {full_name}
-            </Text>
-            {is_verified && <VerifiedIcon />}
-          </NameContainer>
-          <Text variant="label">@{username}</Text>
-        </ProfileInfo>
-      </ProfileHeader>
-
-      {biography && (
-        <Bio>
-          <Text variant="body">{biography}</Text>
-        </Bio>
-      )}
-
-      <ProfileStats>
-        <StatItem>
-          <Text variant="label">Followers</Text>
-          <Text variant="body">{formatNumber(follower_count)}</Text>
-        </StatItem>
-        <StatItem>
-          <Text variant="label">Following</Text>
-          <Text variant="body">{formatNumber(following_count)}</Text>
-        </StatItem>
-      </ProfileStats>
-    </ProfileCardContainer>
+    <CardContainer>
+      <InfoList>
+        <InfoItem>
+          <Label variant="body">Username:</Label>
+          <Value variant="body">@{username}</Value>
+        </InfoItem>
+        <InfoItem>
+          <Label variant="body">Nama Lengkap:</Label>
+          <Value variant="body">{full_name}</Value>
+        </InfoItem>
+        <InfoItem>
+          <Label variant="body">Follower Count:</Label>
+          <Value variant="body">{follower_count.toLocaleString('id-ID')}</Value>
+        </InfoItem>
+        <InfoItem>
+          <Label variant="body">Following Count:</Label>
+          <Value variant="body">{following_count.toLocaleString('id-ID')}</Value>
+        </InfoItem>
+        <InfoItem>
+          <Label variant="body">Post Count:</Label>
+          <Value variant="body">{media_count.toLocaleString('id-ID')}</Value>
+        </InfoItem>
+        <InfoItem>
+          <Label variant="body">Private:</Label>
+          <Value>
+            <Badge $isOn={is_private}>
+              {is_private ? 'private is ON' : 'private is OFF'}
+            </Badge>
+          </Value>
+        </InfoItem>
+        <InfoItem>
+          <Label variant="body">Spam Settings:</Label>
+          <Value>
+            <Badge $isOn={spam_follower_setting_enabled}>
+              {spam_follower_setting_enabled ? 'Spam Filter is ON' : 'Spam Filter is OFF'}
+            </Badge>
+          </Value>
+        </InfoItem>
+      </InfoList>
+    </CardContainer>
   );
 };
 

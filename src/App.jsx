@@ -5,6 +5,7 @@
 
 import styled from 'styled-components';
 import InspektorProfil from './components/organisms/InspektorProfil';
+import ProfileInspector from "./components/organisms/ProfileInspector.jsx";
 
 // Container utama aplikasi dengan background putih bersih
 const ContainerAplikasi = styled.div`
@@ -23,7 +24,8 @@ const ContainerAplikasi = styled.div`
 function App() {
   return (
     <ContainerAplikasi>
-      <InspektorProfil />
+      {/*<InspektorProfil />*/}
+      <ProfileInspector />
     </ContainerAplikasi>
   );
 }

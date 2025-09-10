@@ -12,7 +12,7 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/api/, '/page'),
         configure: (proxy, options) => {
           proxy.on('proxyReq', (proxyReq, req, res) => {
-            const cookie = 'cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiIwMmQyOGI0Zi00ODA3LTQ2NTMtOWY1ZS1jZDNlYmFiZTRjNWYiLCJpbmJveF9pZCI6MX0.wAXs3_d_STfrhpGQ-CH0Ug2fkQ5A1gC7-HYzVq1GNoI;ci_session=otuuu8gj0ionbg63nqtrlvj9qc1qa618;csrf_cookie=90bc89a05b2ecde4060c4944615c8d06'; // <-- GANTI INI
+            const cookie = 'cw_conversation=eyJhbGciOiJIUzI1NiJ9.eyJzb3VyY2VfaWQiOiIwMmQyOGI0Zi00ODA3LTQ2NTMtOWY1ZS1jZDNlYmFiZTRjNWYiLCJpbmJveF9pZCI6MX0.wAXs3_d_STfrhpGQ-CH0Ug2fkQ5A1gC7-HYzVq1GNoI;ci_session=9o9job87hmg9skfat8cap41t788ildhk;csrf_cookie=2cfc4b4fe9aec692dfbf2c9dae471140'; // <-- GANTI INI
             proxyReq.setHeader('User-Agent', 'Mozilla/5.0');
             proxyReq.setHeader('Cookie', cookie);
             proxyReq.setHeader('X-Requested-With', 'XMLHttpRequest');
